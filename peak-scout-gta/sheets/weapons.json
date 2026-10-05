@@ -1,0 +1,7 @@
+{
+  "sheet": "weapons",
+  "columns": ["id", "source", "changed_by_mod", "while_climbing", "status"],
+  "rows": [
+    {"id": "gta_arsenal", "source": "gta-v-enhanced", "changed_by_mod": false, "while_climbing": "holstered (weapons_passthrough)", "status": "designed"}
+  ]
+}

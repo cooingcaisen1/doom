@@ -1,0 +1,7 @@
+{
+  "sheet": "character",
+  "columns": ["id", "source_game", "source_asset", "target_slot", "skeleton_map", "loaded_via", "status"],
+  "rows": [
+    {"id": "scout", "source_game": "peak", "source_asset": "", "target_slot": "", "skeleton_map": "", "loaded_via": "", "status": "unverified: needs PEAK's files (asset bundle and mesh names) and a decision on how GTA Enhanced loads a custom ped without OpenIV"}
+  ]
+}

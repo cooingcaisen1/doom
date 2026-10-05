@@ -1,0 +1,26 @@
+{
+  "sheet": "hooks",
+  "columns": ["id", "kind", "hash", "args", "returns", "status"],
+  "rows": [
+    {"id": "script_tick_hook", "kind": "engine", "hash": "", "args": "", "returns": "", "status": "unverified: where to run once per game frame in GTA5_Enhanced.exe"},
+    {"id": "native_table_scan", "kind": "engine", "hash": "", "args": "", "returns": "", "status": "unverified: how natives are looked up in GTA5_Enhanced.exe"},
+    {"id": "PLAYER_PED_ID", "kind": "native", "hash": "0xD80958FC74E988A6", "args": "", "returns": "Ped", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "SET_PLAYER_MODEL", "kind": "native", "hash": "0x00A1CADD00108836", "args": "Player, Hash", "returns": "void", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "REQUEST_MODEL", "kind": "native", "hash": "0x963D27A58DF860AC", "args": "Hash", "returns": "void", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "HAS_MODEL_LOADED", "kind": "native", "hash": "0x98A4EB5D89A0C952", "args": "Hash", "returns": "BOOL", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "IS_CONTROL_PRESSED", "kind": "native", "hash": "0xF3A21BCD95725A4A", "args": "int pad, int control", "returns": "BOOL", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "GET_CONTROL_NORMAL", "kind": "native", "hash": "0xEC3C9B8D5327B563", "args": "int pad, int control", "returns": "float", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "START_SHAPE_TEST_CAPSULE", "kind": "native", "hash": "0x28579D1B8F8AAC80", "args": "x1,y1,z1,x2,y2,z2,radius,flags,entity,p9", "returns": "int handle", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "GET_SHAPE_TEST_RESULT", "kind": "native", "hash": "0x3D87450E15D98694", "args": "handle, *hit, *endCoords, *surfaceNormal, *entityHit", "returns": "int", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "SET_ENTITY_COORDS_NO_OFFSET", "kind": "native", "hash": "0x239A3351AC1DA385", "args": "Entity, x, y, z, bool, bool, bool", "returns": "void", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "SET_ENTITY_HEADING", "kind": "native", "hash": "0x8E2530AA8ADA980E", "args": "Entity, float", "returns": "void", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "FREEZE_ENTITY_POSITION", "kind": "native", "hash": "0x428CA6DBD1094446", "args": "Entity, BOOL", "returns": "void", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "SET_PED_TO_RAGDOLL", "kind": "native", "hash": "0xAE99FB955581844A", "args": "Ped, int, int, int, bool, bool, bool", "returns": "BOOL", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "IS_PED_SPRINTING", "kind": "native", "hash": "0x57E457CD2C0FC168", "args": "Ped", "returns": "BOOL", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "DRAW_RECT", "kind": "native", "hash": "0x3A618A217E5154F0", "args": "x, y, w, h, r, g, b, a, bool", "returns": "void", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "GET_SELECTED_PED_WEAPON", "kind": "native", "hash": "0x0A6DB4965674D243", "args": "Ped", "returns": "Hash", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "SET_CURRENT_PED_WEAPON", "kind": "native", "hash": "0xADF692B254977C0C", "args": "Ped, Hash, BOOL", "returns": "void", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "NETWORK_IS_SESSION_STARTED", "kind": "native", "hash": "0x9DE624D2FC4B603F", "args": "", "returns": "BOOL", "status": "unverified: hash not yet checked against nativedb or in Enhanced"},
+    {"id": "NETWORK_IS_GAME_IN_PROGRESS", "kind": "native", "hash": "0x10FAB35428CCC9D7", "args": "", "returns": "BOOL", "status": "unverified: hash not yet checked against nativedb or in Enhanced"}
+  ]
+}
