@@ -1,19 +1,63 @@
 {
   "sheet": "weapon",
-  "about": "The hand-held Gatling. One row = one gun; generates a constexpr GunDef. Distances are metres, angles degrees, times milliseconds.",
-  "columns": ["id", "displayName", "propModel", "propKind", "stripWheels", "attachBone", "attachOffset", "attachRot", "muzzleBone", "muzzleFallbackOffset", "bulletWeapon", "bulletWeaponFallback", "damagePerBullet", "spinUpMs", "fireIntervalStartMs", "fireIntervalMinMs", "range", "bulletSpeed", "spreadDeg", "muzzleFx", "infiniteAmmo", "holdAnimDict", "holdAnimName", "holdAnimFlags"],
+  "about": "The hand-held Gatling. One row = one gun; generates a constexpr GunDef. Distances are metres, angles degrees, times milliseconds. holdMethod 'follow' = the Gatling is a frozen, locked vehicle moved to the hand bone every frame (1.0.0 attached the vehicle to Arthur and the game crashed right after F7). holdOffset is in Arthur's frame (x right, y forward, z up) from holdBone; holdRot is pitch/roll/yaw added to Arthur's heading. Spawn is staged: spawn -> follow -> strip wheels, stageDelayFrames apart, each logged.",
+  "columns": [
+    "id",
+    "displayName",
+    "propModel",
+    "propKind",
+    "stripWheels",
+    "holdMethod",
+    "holdBone",
+    "holdOffset",
+    "holdRot",
+    "stageDelayFrames",
+    "muzzleBone",
+    "muzzleFallbackOffset",
+    "bulletWeapon",
+    "bulletWeaponFallback",
+    "damagePerBullet",
+    "spinUpMs",
+    "fireIntervalStartMs",
+    "fireIntervalMinMs",
+    "range",
+    "bulletSpeed",
+    "spreadDeg",
+    "muzzleFx",
+    "infiniteAmmo",
+    "holdAnimDict",
+    "holdAnimName",
+    "holdAnimFlags"
+  ],
   "rows": [
     {
       "id": "arthur_gatling",
       "displayName": "Arthur's Gatling",
       "propModel": "gatling_gun",
       "propKind": "vehicle",
-      "stripWheels": [0, 1],
-      "attachBone": "PH_R_Hand",
-      "attachOffset": [0.10, 0.45, -0.15],
-      "attachRot": [0.0, 0.0, -90.0],
+      "stripWheels": [
+        0,
+        1
+      ],
+      "holdMethod": "follow",
+      "holdBone": "PH_R_Hand",
+      "holdOffset": [
+        0.0,
+        0.35,
+        -0.1
+      ],
+      "holdRot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "stageDelayFrames": 15,
       "muzzleBone": "weapon_1a",
-      "muzzleFallbackOffset": [0.0, 1.2, 0.0],
+      "muzzleFallbackOffset": [
+        0.0,
+        1.2,
+        0.0
+      ],
       "bulletWeapon": "WEAPON_TURRET_GATLING",
       "bulletWeaponFallback": "WEAPON_REPEATER_CARBINE",
       "damagePerBullet": 35,

@@ -60,7 +60,7 @@
     },
     {
       "id": "spawn_hold",
-      "does": "Load gatling_gun, spawn it, strip the carriage wheels, no collision, invincible, attach to Arthur's right hand, holster his own gun, play hip-hold pose (re-applied if interrupted)",
+      "does": "Staged, one step per stageDelayFrames, each logged: (1) load and spawn gatling_gun frozen, locked, no collision, invincible; holster Arthur's gun. (2) follow: every frame move/turn it to Arthur's right hand and play the hip-hold pose. (3) strip the carriage wheels",
       "runsWhen": "on toggle out, then pose check every frame",
       "natives": [
         "REQUEST_MODEL",
@@ -73,13 +73,18 @@
         "_BREAK_OFF_VEHICLE_WHEEL",
         "DELETE_ENTITY",
         "GET_ENTITY_BONE_INDEX_BY_NAME",
-        "ATTACH_ENTITY_TO_ENTITY",
         "SET_CURRENT_PED_WEAPON",
         "REQUEST_ANIM_DICT",
         "HAS_ANIM_DICT_LOADED",
         "TASK_PLAY_ANIM",
         "IS_ENTITY_PLAYING_ANIM",
-        "GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS"
+        "GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS",
+        "GET_ENTITY_HEADING",
+        "FREEZE_ENTITY_POSITION",
+        "SET_ENTITY_COORDS_NO_OFFSET",
+        "SET_ENTITY_ROTATION",
+        "SET_VEHICLE_DOORS_LOCKED",
+        "GET_WORLD_POSITION_OF_ENTITY_BONE"
       ],
       "controls": [],
       "hooks": [],

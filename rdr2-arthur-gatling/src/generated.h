@@ -49,8 +49,6 @@ inline Entity BREAK_OFF_VEHICLE_WHEEL(Vehicle a0, int a1) { return invoke<Entity
 inline void DELETE_ENTITY(Entity* a0) { return invoke<void, 0x4CD38C78BD19A497ULL>("DELETE_ENTITY", a0); }
 // hand bone + barrel bone
 inline int GET_ENTITY_BONE_INDEX_BY_NAME(Entity a0, const char* a1) { return invoke<int, 0xBACA8FE9C76C124EULL>("GET_ENTITY_BONE_INDEX_BY_NAME", a0, a1); }
-// Gatling in Arthur's hands
-inline void ATTACH_ENTITY_TO_ENTITY(Entity a0, Entity a1, int a2, float a3, float a4, float a5, float a6, float a7, float a8, BOOL a9, BOOL a10, BOOL a11, BOOL a12, int a13, BOOL a14, BOOL a15, BOOL a16) { return invoke<void, 0x6B9BBD38AB0796DFULL>("ATTACH_ENTITY_TO_ENTITY", a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16); }
 // muzzle position
 inline Vector3 GET_WORLD_POSITION_OF_ENTITY_BONE(Entity a0, int a1) { return invoke<Vector3, 0x82CFA50E34681CA5ULL>("GET_WORLD_POSITION_OF_ENTITY_BONE", a0, a1); }
 // muzzle fallback
@@ -83,6 +81,16 @@ inline BOOL IS_ENTITY_PLAYING_ANIM(Entity a0, const char* a1, const char* a2, in
 inline void STOP_ANIM_TASK(Ped a0, const char* a1, const char* a2, float a3) { return invoke<void, 0x97FF36A1D40EA00AULL>("STOP_ANIM_TASK", a0, a1, a2, a3); }
 // holster Arthur's own gun while the Gatling is out
 inline void SET_CURRENT_PED_WEAPON(Ped a0, Hash a1, BOOL a2, int a3, BOOL a4, BOOL a5) { return invoke<void, 0xADF692B254977C0CULL>("SET_CURRENT_PED_WEAPON", a0, a1, a2, a3, a4, a5); }
+// Gatling faces where Arthur faces
+inline float GET_ENTITY_HEADING(Entity a0) { return invoke<float, 0xC230DD956E2F5507ULL>("GET_ENTITY_HEADING", a0); }
+// no physics on the held Gatling
+inline void FREEZE_ENTITY_POSITION(Entity a0, BOOL a1) { return invoke<void, 0x7D9EFB7AD6B19754ULL>("FREEZE_ENTITY_POSITION", a0, a1); }
+// move the Gatling to Arthur's hands each frame
+inline void SET_ENTITY_COORDS_NO_OFFSET(Entity a0, float a1, float a2, float a3, BOOL a4, BOOL a5, BOOL a6) { return invoke<void, 0x239A3351AC1DA385ULL>("SET_ENTITY_COORDS_NO_OFFSET", a0, a1, a2, a3, a4, a5, a6); }
+// turn the Gatling each frame
+inline void SET_ENTITY_ROTATION(Entity a0, float a1, float a2, float a3, int a4, BOOL a5) { return invoke<void, 0x9CC8314DFEDE441EULL>("SET_ENTITY_ROTATION", a0, a1, a2, a3, a4, a5); }
+// Arthur can't climb onto the Gatling he's holding
+inline void SET_VEHICLE_DOORS_LOCKED(Vehicle a0, int a1) { return invoke<void, 0x96F78A6A075D55D9ULL>("SET_VEHICLE_DOORS_LOCKED", a0, a1); }
 }  // namespace natives
 
 enum class Resolve { Direct, Rip, RipImm8, Call };
@@ -123,7 +131,7 @@ constexpr ControlDef attack_block = {"INPUT_ATTACK", false, 0x07CE1E61u, 0};  //
 struct GunDef {
     const char* id; const char* displayName; const char* propModel;
     int stripWheels[4]; int stripWheelCount;
-    const char* attachBone; float attachOffset[3]; float attachRot[3];
+    const char* holdMethod; const char* holdBone; float holdOffset[3]; float holdRot[3]; int stageDelayFrames;
     const char* muzzleBone; float muzzleFallbackOffset[3];
     const char* bulletWeapon; const char* bulletWeaponFallback; int damagePerBullet;
     int spinUpMs; int fireIntervalStartMs; int fireIntervalMinMs;
@@ -134,7 +142,7 @@ namespace guns {
 constexpr GunDef arthur_gatling = {
     "arthur_gatling", "Arthur's Gatling", "gatling_gun",
     {0, 1, 0, 0}, 2,
-    "PH_R_Hand", {0.1f, 0.45f, -0.15f}, {0.0f, 0.0f, -90.0f},
+    "follow", "PH_R_Hand", {0.0f, 0.35f, -0.1f}, {0.0f, 0.0f, 0.0f}, 15,
     "weapon_1a", {0.0f, 1.2f, 0.0f},
     "WEAPON_TURRET_GATLING", "WEAPON_REPEATER_CARBINE", 35,
     900, 160, 55,

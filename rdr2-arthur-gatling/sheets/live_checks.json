@@ -42,8 +42,8 @@
       "id": "prop_pose",
       "sheet": "weapon",
       "row": "arthur_gatling",
-      "column": "attachOffset",
-      "question": "Does the Gatling sit at Arthur's hip with the barrel forward? (tune attachOffset/attachRot)",
+      "column": "holdOffset",
+      "question": "Does the Gatling sit at Arthur's hip with the barrel forward, following him smoothly? (tune holdOffset/holdRot)",
       "status": "pending",
       "evidence": ""
     },
@@ -90,6 +90,15 @@
       "column": "does",
       "question": "Never tested by going online with the mod (that risks the account). Checked instead by reading the code path and the log line 'online session -> mod idle'.",
       "status": "skipped-by-design",
+      "evidence": ""
+    },
+    {
+      "id": "staged_spawn",
+      "sheet": "weapon",
+      "row": "arthur_gatling",
+      "column": "holdMethod",
+      "question": "With follow instead of attach: does F7 survive all three stages (log: 'stage 1/2/3')?",
+      "status": "pending",
       "evidence": ""
     }
   ]

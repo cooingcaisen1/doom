@@ -21,6 +21,9 @@ struct State {
     int nextShot = 0;
     int burstShots = 0;
     int heldFrames = 0;
+    int stage = 0;
+    int stageFrames = 0;
+    int handBone = -1;
     bool keyWasDown = false;
     bool onlineLogged = false;
     bool sessionFlagLogged = false;
@@ -44,6 +47,7 @@ void putAway(Ped ped, const char* why) {
     if (ped) STOP_ANIM_TASK(ped, kGun.holdAnimDict, kGun.holdAnimName, 1.0f);
     if (S.held) logf("Gatling put away (%s)", why);
     S.held = false;
+    S.stage = 0;
     S.wantOut = false;
     S.spinStart = -1;
 }
@@ -56,6 +60,7 @@ void playHoldPose(Ped ped) {
 }
 
 // --- spawn_hold ---
+// Staged so a crash report shows the exact step: 1 spawn, 2 follow, 3 strip wheels.
 void trySpawn(Ped ped) {
     REQUEST_MODEL(kModel, false);
     if (!HAS_MODEL_LOADED(kModel)) {
@@ -66,30 +71,59 @@ void trySpawn(Ped ped) {
         return;
     }
     Vector3 at = GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0f, 1.0f, 0.0f);
-    S.prop = CREATE_VEHICLE(kModel, at.x, at.y, at.z, 0.0f, false, false, true, false);
+    logf("stage 1: spawning %s", kGun.propModel);
+    S.prop = CREATE_VEHICLE(kModel, at.x, at.y, at.z, GET_ENTITY_HEADING(ped), false, false, true, false);
     SET_MODEL_AS_NO_LONGER_NEEDED(kModel);
     if (!S.prop) { logf("CREATE_VEHICLE(%s) failed", kGun.propModel); S.wantOut = false; return; }
     SET_ENTITY_AS_MISSION_ENTITY(S.prop, true, true);
+    FREEZE_ENTITY_POSITION(S.prop, true);
     SET_ENTITY_COLLISION(S.prop, false, false);
     SET_ENTITY_INVINCIBLE(S.prop, true);
-    for (int i = 0; i < kGun.stripWheelCount; ++i) {
-        Entity wheel = BREAK_OFF_VEHICLE_WHEEL(S.prop, kGun.stripWheels[i]);
-        if (wheel) { SET_ENTITY_AS_MISSION_ENTITY(wheel, true, true); DELETE_ENTITY(&wheel); }
-    }
-    int bone = GET_ENTITY_BONE_INDEX_BY_NAME(ped, kGun.attachBone);
-    ATTACH_ENTITY_TO_ENTITY(S.prop, ped, bone,
-                            kGun.attachOffset[0], kGun.attachOffset[1], kGun.attachOffset[2],
-                            kGun.attachRot[0], kGun.attachRot[1], kGun.attachRot[2],
-                            false, false, false, false, 2, true, false, false);
+    SET_VEHICLE_DOORS_LOCKED(S.prop, 2);
     SET_CURRENT_PED_WEAPON(ped, joaat("WEAPON_UNARMED"), true, 0, false, false);
     S.bulletHash = joaat(kGun.bulletWeapon);
     if (!IS_WEAPON_VALID(S.bulletHash)) {
         logf("%s not valid here, using %s", kGun.bulletWeapon, kGun.bulletWeaponFallback);
         S.bulletHash = joaat(kGun.bulletWeaponFallback);
     }
+    S.handBone = GET_ENTITY_BONE_INDEX_BY_NAME(ped, kGun.holdBone);
     S.held = true;
+    S.stage = 1;
+    S.stageFrames = 0;
     S.heldFrames = 0;
-    logf("Gatling out: prop %d on bone %s (%d), bullets %08X", S.prop, kGun.attachBone, bone, S.bulletHash);
+    logf("stage 1 done: prop %d frozen and locked, hand bone %s (%d), bullets %08X", S.prop, kGun.holdBone, S.handBone, S.bulletHash);
+}
+
+// Move the frozen Gatling to Arthur's hand, facing where he faces.
+void follow(Ped ped) {
+    Vector3 hand = GET_WORLD_POSITION_OF_ENTITY_BONE(ped, S.handBone);
+    float heading = GET_ENTITY_HEADING(ped);
+    float h = heading * 3.14159265f / 180.0f;
+    float fx = -std::sin(h), fy = std::cos(h);  // forward
+    float rx = std::cos(h), ry = std::sin(h);   // right
+    const float* o = kGun.holdOffset;
+    SET_ENTITY_COORDS_NO_OFFSET(S.prop, hand.x + rx * o[0] + fx * o[1], hand.y + ry * o[0] + fy * o[1], hand.z + o[2], false, false, false);
+    SET_ENTITY_ROTATION(S.prop, kGun.holdRot[0], kGun.holdRot[1], heading + kGun.holdRot[2], 2, true);
+}
+
+void advanceStages(Ped ped) {
+    ++S.stageFrames;
+    if (S.stage == 1 && S.stageFrames >= kGun.stageDelayFrames) {
+        logf("stage 2: following Arthur's hand");
+        S.stage = 2;
+        S.heldFrames = 0;
+        S.stageFrames = 0;
+    } else if (S.stage == 2 && S.stageFrames >= kGun.stageDelayFrames && kGun.stripWheelCount > 0) {
+        logf("stage 3: stripping %d wheels", kGun.stripWheelCount);
+        for (int i = 0; i < kGun.stripWheelCount; ++i) {
+            Entity wheel = BREAK_OFF_VEHICLE_WHEEL(S.prop, kGun.stripWheels[i]);
+            logf("  wheel %d -> entity %d", kGun.stripWheels[i], wheel);
+            if (wheel) { SET_ENTITY_AS_MISSION_ENTITY(wheel, true, true); DELETE_ENTITY(&wheel); }
+        }
+        S.stage = 3;
+        logf("stage 3 done");
+    }
+    if (S.stage >= 2) follow(ped);
 }
 
 // --- fire ---
@@ -185,6 +219,8 @@ void gatlingFrame() {
     // sprint_lock
     DISABLE_CONTROL_ACTION(controls::sprint.pad, controls::sprint.code, false);
 
+    advanceStages(ped);
+    if (S.stage < 2) return;
     if (trace) logf("  pose");
     playHoldPose(ped);
     if (trace) logf("  fire");

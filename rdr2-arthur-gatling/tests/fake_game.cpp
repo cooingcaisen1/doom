@@ -45,6 +45,8 @@ static std::set<uint32_t> g_disabledThisFrame;
 static std::vector<int> g_sprintBlockedFrames;
 static std::string g_attachBone, g_animDict, g_animName;
 static float g_attach[6];
+static bool g_frozen = false, g_attached = false;
+static int g_lock = 0, g_follows = 0;
 static uint32_t g_createdModel = 0, g_unarmedHash = 0;
 static int g_animFlags = 0;
 static std::set<uint64_t> g_unknown;
@@ -88,8 +90,13 @@ static void install_natives() {
     N(0xD4F5EFB55769D272, R(c, 500 + I(c, 1)));                         // _BREAK_OFF_VEHICLE_WHEEL
     N(0x4CD38C78BD19A497, { *reinterpret_cast<int32_t*>(c->stack[0]) = 0; ++g_wheelsDeleted; }); // DELETE_ENTITY
     N(0xBACA8FE9C76C124E, { if (I(c, 0) == 1) g_attachBone = S(c, 1); R(c, 5); }); // GET_ENTITY_BONE_INDEX_BY_NAME
-    N(0x6B9BBD38AB0796DF, { for (int i = 0; i < 6; ++i) g_attach[i] = F(c, 3 + i); }); // ATTACH_ENTITY_TO_ENTITY
-    N(0x82CFA50E34681CA5, RV(c, 0.2f, 1.0f, 1.0f));                     // GET_WORLD_POSITION_OF_ENTITY_BONE
+    N(0xC230DD956E2F5507, { float h = 90.0f; std::memcpy(c->retVal, &h, 4); });   // GET_ENTITY_HEADING (facing west)
+    N(0x7D9EFB7AD6B19754, if (I(c, 0) == g_vehicle && I(c, 1)) g_frozen = true);  // FREEZE_ENTITY_POSITION
+    N(0x96F78A6A075D55D9, if (I(c, 0) == g_vehicle) g_lock = I(c, 1));            // SET_VEHICLE_DOORS_LOCKED
+    N(0x239A3351AC1DA385, { ++g_follows; for (int i = 0; i < 3; ++i) g_attach[i] = F(c, 1 + i); }); // SET_ENTITY_COORDS_NO_OFFSET
+    N(0x9CC8314DFEDE441E, { for (int i = 0; i < 3; ++i) g_attach[3 + i] = F(c, 1 + i); });         // SET_ENTITY_ROTATION
+    N(0x6B9BBD38AB0796DF, g_attached = true);                                                       // ATTACH_ENTITY_TO_ENTITY (must not be used)
+    N(0x82CFA50E34681CA5, RV(c, 10.0f, 20.0f, 1.0f));                   // GET_WORLD_POSITION_OF_ENTITY_BONE
     N(0x1899F328B0E12848, RV(c, 0.0f, 1.0f, 0.0f));                     // GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS
     N(0x5352E025EC2B416F, RV(c, 0.0f, 0.0f, 1.5f));                     // GET_FINAL_RENDERED_CAM_COORD
     N(0x602685BD85DD26CA, RV(c, 0.0f, 0.0f, 0.0f));                     // GET_FINAL_RENDERED_CAM_ROT (facing north)
@@ -199,12 +206,21 @@ int main(int argc, char** argv) {
     run_until(8);
     expect(g_registered != nullptr, "script thread registered with the game after the loading screen");
 
-    // F7 out
+    // F7 out: staged spawn (1 spawn, 2 follow after 15 frames, 3 wheels after 15 more)
     g_f7 = true; run_until(10); g_f7 = false; run_until(16);
     expect(g_vehicleCount == 1 && g_createdModel == joaat("gatling_gun"), "F7 spawns the gatling_gun model");
-    expect(g_wheelsDeleted == 2, "carriage wheels 0 and 1 stripped");
-    expect(g_attachBone == "PH_R_Hand", "attached to Arthur's right hand bone");
-    expect(std::fabs(g_attach[1] - 0.45f) < 1e-4 && std::fabs(g_attach[5] + 90.0f) < 1e-4, "attach offset/rotation from the weapon sheet");
+    expect(g_frozen && g_lock == 2, "stage 1: spawned frozen and locked");
+    expect(g_follows == 0 && g_wheelsDeleted == 0 && g_animDict.empty(), "stage 1 waits: no follow, wheels or pose yet");
+    run_until(30);
+    expect(g_follows > 0 && g_wheelsDeleted == 0, "stage 2: follows the hand, wheels not touched yet");
+    // heading 90 (west): forward = (-1,0), right = (0,1); offset (0,0.35,-0.10) from hand (10,20,1)
+    expect(std::fabs(g_attach[0] - 9.65f) < 1e-3 && std::fabs(g_attach[1] - 20.0f) < 1e-3 && std::fabs(g_attach[2] - 0.9f) < 1e-3,
+           "held at hand + holdOffset in Arthur's frame");
+    expect(std::fabs(g_attach[5] - 90.0f) < 1e-3, "faces Arthur's heading");
+    run_until(48);
+    expect(g_wheelsDeleted == 2, "stage 3: carriage wheels 0 and 1 stripped");
+    expect(!g_attached, "never attaches the vehicle to Arthur (the 1.0.0 crash suspect)");
+    expect(g_attachBone == "PH_R_Hand", "follows Arthur's right hand bone");
     expect(g_animDict == "mech_carry_box" && g_animName == "idle" && g_animFlags == 49, "hip-hold pose from the weapon sheet");
     expect(g_unarmedHash == joaat("WEAPON_UNARMED"), "Arthur's own gun holstered");
     expect(g_shotTimes.empty(), "no shots without the trigger");
@@ -212,7 +228,7 @@ int main(int argc, char** argv) {
 
     // hold fire for ~1.5 s
     int fireStart = g_time;
-    g_fireHeld = true; run_until(16 + 94); g_fireHeld = false; run_until(115);
+    g_fireHeld = true; run_until(48 + 94); g_fireHeld = false; run_until(147);
     int shots = int(g_shotTimes.size());
     std::printf("     %d shots in %d ms of trigger\n", shots, g_time - fireStart - 5 * 16);
     expect(shots >= 18 && shots <= 30, "spray rate in the expected band (spin-up 160 ms -> 55 ms)");
@@ -223,31 +239,31 @@ int main(int argc, char** argv) {
     expect(dmg, "35 damage per bullet from the weapon sheet");
     bool turret = true; for (auto w : g_shotWeapons) turret &= w == joaat("WEAPON_TURRET_GATLING");
     expect(turret, "bullets are WEAPON_TURRET_GATLING");
-    int after = int(g_shotTimes.size()); run_until(125);
+    int after = int(g_shotTimes.size()); run_until(157);
     expect(int(g_shotTimes.size()) == after, "firing stops when the trigger is released");
 
     // F7 away
-    g_f7 = true; run_until(127); g_f7 = false; run_until(130);
+    g_f7 = true; run_until(159); g_f7 = false; run_until(162);
     expect(g_deleted == 1 && g_vehicle == 0 && !g_animPlaying, "F7 again puts it away (prop deleted, pose stopped)");
     expect(g_sprintBlockedFrames.back() < g_frame - 2, "sprint free again once put away");
 
     // online: nothing happens
-    g_online = true; g_f7 = true; run_until(133); g_f7 = false; run_until(140);
+    g_online = true; g_f7 = true; run_until(165); g_f7 = false; run_until(172);
     expect(g_vehicleCount == 1, "online session: F7 does nothing");
-    g_online = false; run_until(142);
+    g_online = false; run_until(174);
 
     // out again, then online mid-hold -> put away
     g_turretValid = false;
-    g_f7 = true; run_until(144); g_f7 = false; run_until(150);
+    g_f7 = true; run_until(176); g_f7 = false; run_until(196);
     expect(g_vehicleCount == 2, "back in story mode F7 works again");
-    g_fireHeld = true; run_until(160); g_fireHeld = false;
+    g_fireHeld = true; run_until(206); g_fireHeld = false;
     expect(g_shotWeapons.back() == joaat("WEAPON_REPEATER_CARBINE"), "falls back to WEAPON_REPEATER_CARBINE if the turret weapon is invalid");
-    g_online = true; run_until(162); g_online = false;
+    g_online = true; run_until(208); g_online = false;
     expect(g_vehicle == 0 && g_deleted == 2, "going online puts the Gatling away");
 
     // riding a horse puts it away
-    g_f7 = true; run_until(164); g_f7 = false; run_until(170);
-    g_mounted = true; run_until(172); g_mounted = false;
+    g_f7 = true; run_until(210); g_f7 = false; run_until(216);
+    g_mounted = true; run_until(218); g_mounted = false;
     expect(g_vehicle == 0 && g_deleted == 3, "mounting a horse puts it away");
 
     // every pattern must land exactly on its planted site (read back from the mod's log)

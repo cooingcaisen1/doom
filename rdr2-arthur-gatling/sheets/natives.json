@@ -224,31 +224,6 @@
       "usedFor": "hand bone + barrel bone"
     },
     {
-      "name": "ATTACH_ENTITY_TO_ENTITY",
-      "hash": "0x6B9BBD38AB0796DF",
-      "args": [
-        "Entity",
-        "Entity",
-        "int",
-        "float",
-        "float",
-        "float",
-        "float",
-        "float",
-        "float",
-        "BOOL",
-        "BOOL",
-        "BOOL",
-        "BOOL",
-        "int",
-        "BOOL",
-        "BOOL",
-        "BOOL"
-      ],
-      "returns": "void",
-      "usedFor": "Gatling in Arthur's hands"
-    },
-    {
       "name": "GET_WORLD_POSITION_OF_ENTITY_BONE",
       "hash": "0x82CFA50E34681CA5",
       "args": [
@@ -443,6 +418,64 @@
       ],
       "returns": "void",
       "usedFor": "holster Arthur's own gun while the Gatling is out"
+    },
+    {
+      "name": "GET_ENTITY_HEADING",
+      "hash": "0xC230DD956E2F5507",
+      "args": [
+        "Entity"
+      ],
+      "returns": "float",
+      "usedFor": "Gatling faces where Arthur faces"
+    },
+    {
+      "name": "FREEZE_ENTITY_POSITION",
+      "hash": "0x7D9EFB7AD6B19754",
+      "args": [
+        "Entity",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "no physics on the held Gatling"
+    },
+    {
+      "name": "SET_ENTITY_COORDS_NO_OFFSET",
+      "hash": "0x239A3351AC1DA385",
+      "args": [
+        "Entity",
+        "float",
+        "float",
+        "float",
+        "BOOL",
+        "BOOL",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "move the Gatling to Arthur's hands each frame"
+    },
+    {
+      "name": "SET_ENTITY_ROTATION",
+      "hash": "0x9CC8314DFEDE441E",
+      "args": [
+        "Entity",
+        "float",
+        "float",
+        "float",
+        "int",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "turn the Gatling each frame"
+    },
+    {
+      "name": "SET_VEHICLE_DOORS_LOCKED",
+      "hash": "0x96F78A6A075D55D9",
+      "args": [
+        "Vehicle",
+        "int"
+      ],
+      "returns": "void",
+      "usedFor": "Arthur can't climb onto the Gatling he's holding"
     }
   ]
 }

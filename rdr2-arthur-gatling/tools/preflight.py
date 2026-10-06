@@ -114,11 +114,13 @@ def main():
         if h["resolve"] not in {"direct", "rip", "rip_imm8", "call"}:
             blocking.append(f"game_hooks[{h['id']}].resolve: unknown '{h['resolve']}'")
     for g in guns.values():
-        for col in ["attachOffset", "attachRot", "muzzleFallbackOffset"]:
+        for col in ["holdOffset", "holdRot", "muzzleFallbackOffset"]:
             if not (isinstance(g[col], list) and len(g[col]) == 3):
                 blocking.append(f"weapon[{g['id']}].{col}: needs [x,y,z]")
         if g["fireIntervalMinMs"] > g["fireIntervalStartMs"]:
             blocking.append(f"weapon[{g['id']}]: fireIntervalMinMs > fireIntervalStartMs")
+        if g["holdMethod"] != "follow":
+            blocking.append(f"weapon[{g['id']}].holdMethod: only 'follow' is implemented")
         if g["propKind"] != "vehicle":
             blocking.append(f"weapon[{g['id']}].propKind: only 'vehicle' is implemented")
 
