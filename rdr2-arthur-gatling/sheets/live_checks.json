@@ -17,8 +17,8 @@
       "row": "*",
       "column": "pattern",
       "question": "Does every pattern match on the player's current RDR2 build? (ArthurGatling.log lists each)",
-      "status": "pending",
-      "evidence": ""
+      "status": "passed",
+      "evidence": "2026-10-06 player log: all 9 patterns found in a 121,206,272-byte RDR2.exe image"
     },
     {
       "id": "thread_ticks",
@@ -26,8 +26,8 @@
       "row": "boot",
       "column": "does",
       "question": "Does the log show 'script thread running' after the loading screen?",
-      "status": "pending",
-      "evidence": ""
+      "status": "passed",
+      "evidence": "player log: 'script thread registered', 'script thread running', GET_HASH_KEY(INPUT_ATTACK)=07CE1E61 ok"
     },
     {
       "id": "prop_spawns",
@@ -36,7 +36,7 @@
       "column": "propModel",
       "question": "Does gatling_gun spawn and attach, with the wheels gone?",
       "status": "pending",
-      "evidence": ""
+      "evidence": "player log: prop 159234 spawned and attached to PH_R_Hand (bone index 329, matches femga's player_zero list). Wheels and look not yet seen"
     },
     {
       "id": "prop_pose",
@@ -72,7 +72,7 @@
       "column": "bulletWeapon",
       "question": "Is WEAPON_TURRET_GATLING valid (log), and do bullets hurt people with Gatling sound?",
       "status": "pending",
-      "evidence": ""
+      "evidence": "player log: no fallback line, so WEAPON_TURRET_GATLING is valid. Damage and sound not yet seen"
     },
     {
       "id": "sprint_blocked",

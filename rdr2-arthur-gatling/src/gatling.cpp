@@ -19,6 +19,7 @@ struct State {
     Hash bulletHash = 0;
     int spinStart = -1;
     int nextShot = 0;
+    int burstShots = 0;
     bool keyWasDown = false;
     bool onlineLogged = false;
     bool sessionFlagLogged = false;
@@ -97,8 +98,12 @@ void fire(Ped ped) {
     bool trigger = IS_DISABLED_CONTROL_PRESSED(pad, controls::fire.code);
     bool aiming = IS_CONTROL_PRESSED(controls::aim.pad, controls::aim.code);
     int now = GET_GAME_TIMER();
-    if (!trigger || IS_PED_RAGDOLL(ped)) { S.spinStart = -1; return; }
-    if (S.spinStart < 0) { S.spinStart = now; S.nextShot = now; }
+    if (!trigger || IS_PED_RAGDOLL(ped)) {
+        if (S.spinStart >= 0) logf("burst: %d shots in %d ms", S.burstShots, now - S.spinStart);
+        S.spinStart = -1;
+        return;
+    }
+    if (S.spinStart < 0) { S.spinStart = now; S.nextShot = now; S.burstShots = 0; }
 
     float t = float(now - S.spinStart) / float(kGun.spinUpMs);
     if (t > 1.0f) t = 1.0f;
@@ -108,6 +113,7 @@ void fire(Ped ped) {
     while (now >= S.nextShot && shots < 3) {
         S.nextShot += interval;
         ++shots;
+        ++S.burstShots;
         Vector3 cam = GET_FINAL_RENDERED_CAM_COORD();
         Vector3 rot = GET_FINAL_RENDERED_CAM_ROT(2);
         float spread = aiming ? kGun.spreadDeg : kGun.spreadDeg * 2.0f;
