@@ -1,0 +1,96 @@
+{
+  "sheet": "live_checks",
+  "about": "Cells that only the running game can confirm. status: pending | passed | failed | skipped-by-design. A release is not called tested until every row has passed.",
+  "columns": [
+    "id",
+    "sheet",
+    "row",
+    "column",
+    "question",
+    "status",
+    "evidence"
+  ],
+  "rows": [
+    {
+      "id": "patterns_match",
+      "sheet": "game_hooks",
+      "row": "*",
+      "column": "pattern",
+      "question": "Does every pattern match on the player's current RDR2 build? (ArthurGatling.log lists each)",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "thread_ticks",
+      "sheet": "systems",
+      "row": "boot",
+      "column": "does",
+      "question": "Does the log show 'script thread running' after the loading screen?",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "prop_spawns",
+      "sheet": "weapon",
+      "row": "arthur_gatling",
+      "column": "propModel",
+      "question": "Does gatling_gun spawn and attach, with the wheels gone?",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "prop_pose",
+      "sheet": "weapon",
+      "row": "arthur_gatling",
+      "column": "attachOffset",
+      "question": "Does the Gatling sit at Arthur's hip with the barrel forward? (tune attachOffset/attachRot)",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "hold_anim",
+      "sheet": "weapon",
+      "row": "arthur_gatling",
+      "column": "holdAnimDict",
+      "question": "Does mech_carry_box/idle hold the arms in place while walking (upper body only)?",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "muzzle_bone",
+      "sheet": "weapon",
+      "row": "arthur_gatling",
+      "column": "muzzleBone",
+      "question": "Do bullets and the flash leave the barrel tip?",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "bullet_weapon",
+      "sheet": "weapon",
+      "row": "arthur_gatling",
+      "column": "bulletWeapon",
+      "question": "Is WEAPON_TURRET_GATLING valid (log), and do bullets hurt people with Gatling sound?",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "sprint_blocked",
+      "sheet": "controls",
+      "row": "sprint",
+      "column": "mode",
+      "question": "Holding Shift with the Gatling out: no sprint, but walking/jogging normal?",
+      "status": "pending",
+      "evidence": ""
+    },
+    {
+      "id": "online_guard",
+      "sheet": "systems",
+      "row": "online_guard",
+      "column": "does",
+      "question": "Never tested by going online with the mod (that risks the account). Checked instead by reading the code path and the log line 'online session -> mod idle'.",
+      "status": "skipped-by-design",
+      "evidence": ""
+    }
+  ]
+}

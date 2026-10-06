@@ -1,0 +1,13 @@
+{
+  "sheet": "controls",
+  "about": "Inputs the mod reads or blocks. kind 'key' = Windows virtual key read by the mod; kind 'control' = RDR2 input action (hash = joaat of name, checked by preflight). padIndex 0 = gameplay.",
+  "columns": ["id", "kind", "name", "code", "padIndex", "mode", "usedBy"],
+  "rows": [
+    {"id": "toggle", "kind": "key", "name": "F7", "code": "0x76", "padIndex": 0, "mode": "edge", "usedBy": "toggle"},
+    {"id": "fire", "kind": "control", "name": "INPUT_ATTACK", "code": "0x07CE1E61", "padIndex": 0, "mode": "read_disabled", "usedBy": "fire"},
+    {"id": "aim", "kind": "control", "name": "INPUT_AIM", "code": "0xF84FA74F", "padIndex": 0, "mode": "read", "usedBy": "fire"},
+    {"id": "sprint", "kind": "control", "name": "INPUT_SPRINT", "code": "0x8FFC75D6", "padIndex": 0, "mode": "disable", "usedBy": "sprint_lock"},
+    {"id": "melee", "kind": "control", "name": "INPUT_MELEE_ATTACK", "code": "0xB2F377E8", "padIndex": 0, "mode": "disable", "usedBy": "fire"},
+    {"id": "attack_block", "kind": "control", "name": "INPUT_ATTACK", "code": "0x07CE1E61", "padIndex": 0, "mode": "disable", "usedBy": "fire"}
+  ]
+}

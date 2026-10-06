@@ -1,0 +1,86 @@
+{
+  "sheet": "game_hooks",
+  "about": "Places in RDR2.exe the mod finds by byte pattern so it can run game functions without Script Hook. Patterns come from emcifuntik/rdr2scripthook (MIT), which targets game build 1.0.1491.50. resolve: 'direct' = the match itself, 'rip' = read the 32-bit relative address at ripOffset, 'call' = follow the E8 call at the match, 'rip_imm8' = like rip but the instruction has one more immediate byte.",
+  "columns": [
+    "id",
+    "pattern",
+    "resolve",
+    "ripOffset",
+    "role",
+    "source"
+  ],
+  "rows": [
+    {
+      "id": "getNativeAddress",
+      "pattern": "48 8B 15 ? ? ? ? 4C 8B C9 49 F7 D1",
+      "resolve": "direct",
+      "ripOffset": 0,
+      "role": "native hash -> handler address",
+      "source": "rdr2scripthook rdrhook/src/scripting/CScriptManager.cpp"
+    },
+    {
+      "id": "currentScriptThread",
+      "pattern": "48 39 1D ? ? ? ? 75 ? 48 8D 05 ? ? ? ?",
+      "resolve": "rip",
+      "ripOffset": 3,
+      "role": "pointer to the active script thread slot",
+      "source": "rdr2scripthook rdrhook/src/scripting/CScriptManager.cpp"
+    },
+    {
+      "id": "scriptHandlerManager",
+      "pattern": "48 8D 0D ? ? ? ? E8 ? ? ? ? 84 C0 75 ? 8B 8B ? ? ? ?",
+      "resolve": "rip",
+      "ripOffset": 3,
+      "role": "registers our script thread with the game",
+      "source": "rdr2scripthook rdrhook/src/scripting/CScriptManager.cpp"
+    },
+    {
+      "id": "isInSession",
+      "pattern": "80 3D ? ? ? ? ? 74 ? 48 8B 0D ? ? ? ? E8 ? ? ? ? 0F B6 40 ?",
+      "resolve": "rip_imm8",
+      "ripOffset": 2,
+      "role": "online flag; logged only (the online guard itself uses natives). rip_imm8 = cmp [rip+disp32],imm8 so the address is relative to the end of the 7-byte instruction",
+      "source": "rdr2scripthook rdrhook/src/scripting/CScriptManager.cpp"
+    },
+    {
+      "id": "updateSingleScripts",
+      "pattern": "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 56 41 57 48 83 EC ? 45 33 F6 BD ? ? ? ?",
+      "resolve": "direct",
+      "ripOffset": 0,
+      "role": "detoured: ticks our script thread every frame",
+      "source": "rdr2scripthook rdrhook/src/scripting/CScriptManager.cpp"
+    },
+    {
+      "id": "shutdownLoadingScreen",
+      "pattern": "8A 05 ? ? ? ? 84 C0 75 ? C6 05 ? ? ? ? ?",
+      "resolve": "direct",
+      "ripOffset": 0,
+      "role": "detoured: start only after the loading screen",
+      "source": "rdr2scripthook rdrhook/src/scripting/CScriptManager.cpp"
+    },
+    {
+      "id": "initScriptThread",
+      "pattern": "48 89 5C 24 ? 57 48 83 EC ? 83 89 ? ? ? ? ? 33 FF 83 A1",
+      "resolve": "direct",
+      "ripOffset": 0,
+      "role": "game's scrThread init",
+      "source": "rdr2scripthook rdrhook/src/scripting/GtaThread.cpp"
+    },
+    {
+      "id": "tickScriptThread",
+      "pattern": "48 89 5C 24 ? 57 48 83 EC ? 80 B9 ? ? ? ? ? 8B FA 48 8B D9 74 ? 8B 41",
+      "resolve": "direct",
+      "ripOffset": 0,
+      "role": "game's scrThread tick (calls our Run)",
+      "source": "rdr2scripthook rdrhook/src/scripting/GtaThread.cpp"
+    },
+    {
+      "id": "sysAlloc",
+      "pattern": "E8 ? ? ? ? 48 85 C0 74 ? 48 83 20 ? 0F 57 C0 0F 11 40 ? 0F 11 40 ? 83 60",
+      "resolve": "call",
+      "ripOffset": 1,
+      "role": "game allocator for our thread object",
+      "source": "rdr2scripthook rdrhook/src/rage/CSysAllocator.cpp"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "sheet": "weapon",
+  "about": "The hand-held Gatling. One row = one gun; generates a constexpr GunDef. Distances are metres, angles degrees, times milliseconds.",
+  "columns": ["id", "displayName", "propModel", "propKind", "stripWheels", "attachBone", "attachOffset", "attachRot", "muzzleBone", "muzzleFallbackOffset", "bulletWeapon", "bulletWeaponFallback", "damagePerBullet", "spinUpMs", "fireIntervalStartMs", "fireIntervalMinMs", "range", "bulletSpeed", "spreadDeg", "muzzleFx", "infiniteAmmo", "holdAnimDict", "holdAnimName", "holdAnimFlags"],
+  "rows": [
+    {
+      "id": "arthur_gatling",
+      "displayName": "Arthur's Gatling",
+      "propModel": "gatling_gun",
+      "propKind": "vehicle",
+      "stripWheels": [0, 1],
+      "attachBone": "PH_R_Hand",
+      "attachOffset": [0.10, 0.45, -0.15],
+      "attachRot": [0.0, 0.0, -90.0],
+      "muzzleBone": "weapon_1a",
+      "muzzleFallbackOffset": [0.0, 1.2, 0.0],
+      "bulletWeapon": "WEAPON_TURRET_GATLING",
+      "bulletWeaponFallback": "WEAPON_REPEATER_CARBINE",
+      "damagePerBullet": 35,
+      "spinUpMs": 900,
+      "fireIntervalStartMs": 160,
+      "fireIntervalMinMs": 55,
+      "range": 150.0,
+      "bulletSpeed": -1.0,
+      "spreadDeg": 1.6,
+      "muzzleFx": "muz_gatling",
+      "infiniteAmmo": true,
+      "holdAnimDict": "mech_carry_box",
+      "holdAnimName": "idle",
+      "holdAnimFlags": 49
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "sheet": "systems",
+  "about": "Every game system the mod touches. One row = one function in src/gatling.cpp. natives/controls/hooks/gun reference rows in the other sheets by name/id; preflight checks every reference resolves and that every native/control/hook row is used.",
+  "columns": [
+    "id",
+    "does",
+    "runsWhen",
+    "natives",
+    "controls",
+    "hooks",
+    "gun"
+  ],
+  "rows": [
+    {
+      "id": "boot",
+      "does": "Find game_hooks, register our script thread after the loading screen, log what was found to ArthurGatling.log",
+      "runsWhen": "once, first GetCommandLineA call after the game unpacks",
+      "natives": [
+        "GET_HASH_KEY"
+      ],
+      "controls": [],
+      "hooks": [
+        "getNativeAddress",
+        "currentScriptThread",
+        "scriptHandlerManager",
+        "isInSession",
+        "updateSingleScripts",
+        "shutdownLoadingScreen",
+        "initScriptThread",
+        "tickScriptThread",
+        "sysAlloc"
+      ],
+      "gun": "-"
+    },
+    {
+      "id": "online_guard",
+      "does": "If an online session is running: put the Gatling away and do nothing else until back in Story Mode",
+      "runsWhen": "every frame, before anything else",
+      "natives": [
+        "NETWORK_IS_SESSION_STARTED",
+        "NETWORK_IS_GAME_IN_PROGRESS"
+      ],
+      "controls": [],
+      "hooks": [],
+      "gun": "-"
+    },
+    {
+      "id": "toggle",
+      "does": "F7 (not in pause menu) brings the Gatling out or puts it away",
+      "runsWhen": "every frame in Story Mode",
+      "natives": [
+        "IS_PAUSE_MENU_ACTIVE",
+        "PLAYER_PED_ID"
+      ],
+      "controls": [
+        "toggle"
+      ],
+      "hooks": [],
+      "gun": "arthur_gatling"
+    },
+    {
+      "id": "spawn_hold",
+      "does": "Load gatling_gun, spawn it, strip the carriage wheels, no collision, invincible, attach to Arthur's right hand, holster his own gun, play hip-hold pose (re-applied if interrupted)",
+      "runsWhen": "on toggle out, then pose check every frame",
+      "natives": [
+        "REQUEST_MODEL",
+        "HAS_MODEL_LOADED",
+        "SET_MODEL_AS_NO_LONGER_NEEDED",
+        "CREATE_VEHICLE",
+        "SET_ENTITY_AS_MISSION_ENTITY",
+        "SET_ENTITY_COLLISION",
+        "SET_ENTITY_INVINCIBLE",
+        "_BREAK_OFF_VEHICLE_WHEEL",
+        "DELETE_ENTITY",
+        "GET_ENTITY_BONE_INDEX_BY_NAME",
+        "ATTACH_ENTITY_TO_ENTITY",
+        "SET_CURRENT_PED_WEAPON",
+        "REQUEST_ANIM_DICT",
+        "HAS_ANIM_DICT_LOADED",
+        "TASK_PLAY_ANIM",
+        "IS_ENTITY_PLAYING_ANIM",
+        "GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS"
+      ],
+      "controls": [],
+      "hooks": [],
+      "gun": "arthur_gatling"
+    },
+    {
+      "id": "fire",
+      "does": "Hold fire: barrel spins up (interval eases from start to min over spinUpMs), bullets fly from the muzzle toward where the camera points with a little spread, muzzle flash, no ammo used. Normal firing and melee are blocked while held",
+      "runsWhen": "every frame while held",
+      "natives": [
+        "GET_GAME_TIMER",
+        "IS_DISABLED_CONTROL_PRESSED",
+        "IS_CONTROL_PRESSED",
+        "DISABLE_CONTROL_ACTION",
+        "GET_WORLD_POSITION_OF_ENTITY_BONE",
+        "GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS",
+        "GET_FINAL_RENDERED_CAM_COORD",
+        "GET_FINAL_RENDERED_CAM_ROT",
+        "IS_WEAPON_VALID",
+        "SHOOT_SINGLE_BULLET_BETWEEN_COORDS",
+        "START_PARTICLE_FX_NON_LOOPED_AT_COORD",
+        "IS_PED_RAGDOLL"
+      ],
+      "controls": [
+        "fire",
+        "aim",
+        "melee",
+        "attack_block"
+      ],
+      "hooks": [],
+      "gun": "arthur_gatling"
+    },
+    {
+      "id": "sprint_lock",
+      "does": "No sprinting while the Gatling is out (walking and jogging stay normal)",
+      "runsWhen": "every frame while held",
+      "natives": [
+        "DISABLE_CONTROL_ACTION"
+      ],
+      "controls": [
+        "sprint"
+      ],
+      "hooks": [],
+      "gun": "arthur_gatling"
+    },
+    {
+      "id": "auto_put_away",
+      "does": "Put the Gatling away if Arthur dies, mounts a horse, gets in a vehicle or swims; delete the prop and stop the pose",
+      "runsWhen": "every frame while held",
+      "natives": [
+        "IS_ENTITY_DEAD",
+        "IS_PED_ON_MOUNT",
+        "IS_PED_IN_ANY_VEHICLE",
+        "IS_PED_SWIMMING",
+        "DOES_ENTITY_EXIST",
+        "DELETE_VEHICLE",
+        "STOP_ANIM_TASK"
+      ],
+      "controls": [],
+      "hooks": [],
+      "gun": "arthur_gatling"
+    }
+  ]
+}

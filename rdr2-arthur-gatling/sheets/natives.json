@@ -1,0 +1,448 @@
+{
+  "sheet": "natives",
+  "about": "Every game function (native) the mod calls. One row = one generated C++ wrapper. Hash, args and return type are checked against alloc8or/rdr3-nativedb-data by tools/preflight.py.",
+  "columns": [
+    "name",
+    "hash",
+    "args",
+    "returns",
+    "usedFor"
+  ],
+  "rows": [
+    {
+      "name": "PLAYER_PED_ID",
+      "hash": "0x096275889B8E0EE0",
+      "args": [],
+      "returns": "Ped",
+      "usedFor": "find Arthur"
+    },
+    {
+      "name": "GET_HASH_KEY",
+      "hash": "0xFD340785ADF8CFB7",
+      "args": [
+        "const char*"
+      ],
+      "returns": "Hash",
+      "usedFor": "sanity check of hashing at start"
+    },
+    {
+      "name": "NETWORK_IS_SESSION_STARTED",
+      "hash": "0x9DE624D2FC4B603F",
+      "args": [],
+      "returns": "BOOL",
+      "usedFor": "online guard"
+    },
+    {
+      "name": "NETWORK_IS_GAME_IN_PROGRESS",
+      "hash": "0x10FAB35428CCC9D7",
+      "args": [],
+      "returns": "BOOL",
+      "usedFor": "online guard"
+    },
+    {
+      "name": "IS_PAUSE_MENU_ACTIVE",
+      "hash": "0x535384D6067BA42E",
+      "args": [],
+      "returns": "BOOL",
+      "usedFor": "ignore F7 in menus"
+    },
+    {
+      "name": "GET_GAME_TIMER",
+      "hash": "0x4F67E8ECA7D3F667",
+      "args": [],
+      "returns": "int",
+      "usedFor": "fire timing"
+    },
+    {
+      "name": "DOES_ENTITY_EXIST",
+      "hash": "0xD42BD6EB2E0F1677",
+      "args": [
+        "Entity"
+      ],
+      "returns": "BOOL",
+      "usedFor": "prop bookkeeping"
+    },
+    {
+      "name": "IS_ENTITY_DEAD",
+      "hash": "0x7D5B1F88E7504BBA",
+      "args": [
+        "Entity"
+      ],
+      "returns": "BOOL",
+      "usedFor": "auto put-away"
+    },
+    {
+      "name": "IS_PED_ON_MOUNT",
+      "hash": "0x460BC76A0E10655E",
+      "args": [
+        "Ped"
+      ],
+      "returns": "BOOL",
+      "usedFor": "auto put-away"
+    },
+    {
+      "name": "IS_PED_IN_ANY_VEHICLE",
+      "hash": "0x997ABD671D25CA0B",
+      "args": [
+        "Ped",
+        "BOOL"
+      ],
+      "returns": "BOOL",
+      "usedFor": "auto put-away"
+    },
+    {
+      "name": "IS_PED_SWIMMING",
+      "hash": "0x9DE327631295B4C2",
+      "args": [
+        "Ped"
+      ],
+      "returns": "BOOL",
+      "usedFor": "auto put-away"
+    },
+    {
+      "name": "IS_PED_RAGDOLL",
+      "hash": "0x47E4E977581C5B55",
+      "args": [
+        "Ped"
+      ],
+      "returns": "BOOL",
+      "usedFor": "pause firing"
+    },
+    {
+      "name": "REQUEST_MODEL",
+      "hash": "0xFA28FE3A6246FC30",
+      "args": [
+        "Hash",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "load Gatling model"
+    },
+    {
+      "name": "HAS_MODEL_LOADED",
+      "hash": "0x1283B8B89DD5D1B6",
+      "args": [
+        "Hash"
+      ],
+      "returns": "BOOL",
+      "usedFor": "load Gatling model"
+    },
+    {
+      "name": "SET_MODEL_AS_NO_LONGER_NEEDED",
+      "hash": "0x4AD96EF928BD4F9A",
+      "args": [
+        "Hash"
+      ],
+      "returns": "void",
+      "usedFor": "load Gatling model"
+    },
+    {
+      "name": "CREATE_VEHICLE",
+      "hash": "0xAF35D0D2583051B0",
+      "args": [
+        "Hash",
+        "float",
+        "float",
+        "float",
+        "float",
+        "BOOL",
+        "BOOL",
+        "BOOL",
+        "BOOL"
+      ],
+      "returns": "Vehicle",
+      "usedFor": "spawn Gatling"
+    },
+    {
+      "name": "DELETE_VEHICLE",
+      "hash": "0xE20A909D8C4A70F8",
+      "args": [
+        "Vehicle*"
+      ],
+      "returns": "void",
+      "usedFor": "put Gatling away"
+    },
+    {
+      "name": "SET_ENTITY_AS_MISSION_ENTITY",
+      "hash": "0xDC19C288082E586E",
+      "args": [
+        "Entity",
+        "BOOL",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "own the prop so it can be deleted"
+    },
+    {
+      "name": "SET_ENTITY_COLLISION",
+      "hash": "0xF66F820909453B8C",
+      "args": [
+        "Entity",
+        "BOOL",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "prop does not push Arthur"
+    },
+    {
+      "name": "SET_ENTITY_INVINCIBLE",
+      "hash": "0xA5C38736C426FCB8",
+      "args": [
+        "Entity",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "prop cannot be shot apart"
+    },
+    {
+      "name": "_BREAK_OFF_VEHICLE_WHEEL",
+      "hash": "0xD4F5EFB55769D272",
+      "args": [
+        "Vehicle",
+        "int"
+      ],
+      "returns": "Entity",
+      "usedFor": "strip carriage wheels"
+    },
+    {
+      "name": "DELETE_ENTITY",
+      "hash": "0x4CD38C78BD19A497",
+      "args": [
+        "Entity*"
+      ],
+      "returns": "void",
+      "usedFor": "delete broken-off wheels"
+    },
+    {
+      "name": "GET_ENTITY_BONE_INDEX_BY_NAME",
+      "hash": "0xBACA8FE9C76C124E",
+      "args": [
+        "Entity",
+        "const char*"
+      ],
+      "returns": "int",
+      "usedFor": "hand bone + barrel bone"
+    },
+    {
+      "name": "ATTACH_ENTITY_TO_ENTITY",
+      "hash": "0x6B9BBD38AB0796DF",
+      "args": [
+        "Entity",
+        "Entity",
+        "int",
+        "float",
+        "float",
+        "float",
+        "float",
+        "float",
+        "float",
+        "BOOL",
+        "BOOL",
+        "BOOL",
+        "BOOL",
+        "int",
+        "BOOL",
+        "BOOL",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "Gatling in Arthur's hands"
+    },
+    {
+      "name": "GET_WORLD_POSITION_OF_ENTITY_BONE",
+      "hash": "0x82CFA50E34681CA5",
+      "args": [
+        "Entity",
+        "int"
+      ],
+      "returns": "Vector3",
+      "usedFor": "muzzle position"
+    },
+    {
+      "name": "GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS",
+      "hash": "0x1899F328B0E12848",
+      "args": [
+        "Entity",
+        "float",
+        "float",
+        "float"
+      ],
+      "returns": "Vector3",
+      "usedFor": "muzzle fallback"
+    },
+    {
+      "name": "GET_FINAL_RENDERED_CAM_COORD",
+      "hash": "0x5352E025EC2B416F",
+      "args": [],
+      "returns": "Vector3",
+      "usedFor": "aim ray"
+    },
+    {
+      "name": "GET_FINAL_RENDERED_CAM_ROT",
+      "hash": "0x602685BD85DD26CA",
+      "args": [
+        "int"
+      ],
+      "returns": "Vector3",
+      "usedFor": "aim ray"
+    },
+    {
+      "name": "IS_WEAPON_VALID",
+      "hash": "0x937C71165CF334B3",
+      "args": [
+        "Hash"
+      ],
+      "returns": "BOOL",
+      "usedFor": "pick bullet type"
+    },
+    {
+      "name": "SHOOT_SINGLE_BULLET_BETWEEN_COORDS",
+      "hash": "0x867654CBC7606F2C",
+      "args": [
+        "float",
+        "float",
+        "float",
+        "float",
+        "float",
+        "float",
+        "int",
+        "BOOL",
+        "Hash",
+        "Ped",
+        "BOOL",
+        "BOOL",
+        "float",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "the spray"
+    },
+    {
+      "name": "START_PARTICLE_FX_NON_LOOPED_AT_COORD",
+      "hash": "0x2E80BF72EF7C87AC",
+      "args": [
+        "const char*",
+        "float",
+        "float",
+        "float",
+        "float",
+        "float",
+        "float",
+        "float",
+        "BOOL",
+        "BOOL",
+        "BOOL"
+      ],
+      "returns": "BOOL",
+      "usedFor": "muzzle flash"
+    },
+    {
+      "name": "IS_CONTROL_PRESSED",
+      "hash": "0xF3A21BCD95725A4A",
+      "args": [
+        "int",
+        "Hash"
+      ],
+      "returns": "BOOL",
+      "usedFor": "read fire/aim"
+    },
+    {
+      "name": "IS_DISABLED_CONTROL_PRESSED",
+      "hash": "0xE2587F8CBBD87B1D",
+      "args": [
+        "int",
+        "Hash"
+      ],
+      "returns": "BOOL",
+      "usedFor": "read fire after disabling it for the game"
+    },
+    {
+      "name": "DISABLE_CONTROL_ACTION",
+      "hash": "0xFE99B66D079CF6BC",
+      "args": [
+        "int",
+        "Hash",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "sprint lock, block melee/normal firing"
+    },
+    {
+      "name": "REQUEST_ANIM_DICT",
+      "hash": "0xA862A2AD321F94B4",
+      "args": [
+        "const char*"
+      ],
+      "returns": "void",
+      "usedFor": "hip-hold pose"
+    },
+    {
+      "name": "HAS_ANIM_DICT_LOADED",
+      "hash": "0x27FF6FE8009B40CA",
+      "args": [
+        "const char*"
+      ],
+      "returns": "BOOL",
+      "usedFor": "hip-hold pose"
+    },
+    {
+      "name": "TASK_PLAY_ANIM",
+      "hash": "0xEA47FE3719165B94",
+      "args": [
+        "Ped",
+        "const char*",
+        "const char*",
+        "float",
+        "float",
+        "int",
+        "int",
+        "float",
+        "BOOL",
+        "int",
+        "BOOL",
+        "const char*",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "hip-hold pose"
+    },
+    {
+      "name": "IS_ENTITY_PLAYING_ANIM",
+      "hash": "0xDEE49D5CA6C49148",
+      "args": [
+        "Entity",
+        "const char*",
+        "const char*",
+        "int"
+      ],
+      "returns": "BOOL",
+      "usedFor": "re-apply pose if interrupted"
+    },
+    {
+      "name": "STOP_ANIM_TASK",
+      "hash": "0x97FF36A1D40EA00A",
+      "args": [
+        "Ped",
+        "const char*",
+        "const char*",
+        "float"
+      ],
+      "returns": "void",
+      "usedFor": "drop pose on put-away"
+    },
+    {
+      "name": "SET_CURRENT_PED_WEAPON",
+      "hash": "0xADF692B254977C0C",
+      "args": [
+        "Ped",
+        "Hash",
+        "BOOL",
+        "int",
+        "BOOL",
+        "BOOL"
+      ],
+      "returns": "void",
+      "usedFor": "holster Arthur's own gun while the Gatling is out"
+    }
+  ]
+}
