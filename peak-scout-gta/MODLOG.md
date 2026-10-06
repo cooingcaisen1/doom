@@ -18,3 +18,8 @@
 3. PEAK scout asset names; how Enhanced loads a custom ped (OpenRPF? licence).
 
 Preflight: `python3 -I tools/preflight.py`
+
+## Melty draft
+- modId 0cfe1fea-b000-4eb6-85e0-6f44e20cee67 (draft, private). Release 0.0.1 = probe only (releaseId 9c30df45-97e5-4e13-8aed-7d65902d0f3b), status draft, one_click_check: yes.
+- Recipe: gta-v-enhanced primary, peak secondary, loader ultimate-asi-loader, PeakScoutGTA.asi -> {game}.
+- Waiting on: the user's Melty Test, and whether PeakScoutGTA.log appears in the GTA folder.
