@@ -36,7 +36,7 @@
       "column": "propModel",
       "question": "Does gatling_gun spawn and attach, with the wheels gone?",
       "status": "failed",
-      "evidence": "player log: prop 159234 spawned and attached to PH_R_Hand (bone index 329, matches femga's player_zero list). Wheels and look not yet seen. 1.0.0: player reports the game crashed after F7 (log ends at 'Gatling out'). 1.0.1 adds per-call and crash logging to find the culprit"
+      "evidence": "player log: prop 159234 spawned and attached to PH_R_Hand (bone index 329, matches femga's player_zero list). Wheels and look not yet seen. 1.0.0: player reports the game crashed after F7 (log ends at 'Gatling out'). 1.0.1 adds per-call and crash logging to find the culprit. 1.0.1 log: whole first held frame ran fine (checks, pose, fire, 'frame done'), then exception C0000005 at RDR2.exe+0x159CC55 reading address 0, outside our script thread, last native GET_GAME_TIMER. So the game's own update tripped over something in the world: the vehicle attached to Arthur or the wheel deleted that same frame. 1.0.2 removes the attach and moves wheels to a later, logged stage"
     },
     {
       "id": "prop_pose",

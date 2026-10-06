@@ -8,3 +8,4 @@
 - Bullets: SHOOT_SINGLE_BULLET_BETWEEN_COORDS with WEAPON_TURRET_GATLING, falling back to WEAPON_REPEATER_CARBINE if that hash is invalid.
 - Tested: tests/run_tests.sh, a stand-in RDR2.exe under Wine 9. 35/35 checks pass (patterns land on exact sites, thread registers after the loading screen, F7, spin-up, sprint lock, online guard, auto put-away, every native on our thread).
 - Not yet tested: the real game. See sheets/live_checks.json.
+- Real game, 1.0.0/1.0.1: the crash comes right after F7. The 1.0.1 log shows the first held frame finishing, then an access violation at RDR2.exe+0x159CC55 (null read) outside our thread. The game's own update chokes on what we did (an attached vehicle, or a broken-off wheel deleted in the same frame); it isn't a bad native call. 1.0.2: follow the hand instead of attaching, and stage spawn, follow and wheels 15 frames apart.
