@@ -20,6 +20,7 @@ struct State {
     int spinStart = -1;
     int nextShot = 0;
     int burstShots = 0;
+    int heldFrames = 0;
     bool keyWasDown = false;
     bool onlineLogged = false;
     bool sessionFlagLogged = false;
@@ -87,6 +88,7 @@ void trySpawn(Ped ped) {
         S.bulletHash = joaat(kGun.bulletWeaponFallback);
     }
     S.held = true;
+    S.heldFrames = 0;
     logf("Gatling out: prop %d on bone %s (%d), bullets %08X", S.prop, kGun.attachBone, bone, S.bulletHash);
 }
 
@@ -169,6 +171,10 @@ void gatlingFrame() {
         }
     }
     if (!S.held) return;
+    // step markers for the first held frames: a crash report then shows how far it got
+    const bool trace = S.heldFrames < 3;
+    if (trace) logf("held frame %d: checks", S.heldFrames);
+    ++S.heldFrames;
 
     // auto_put_away
     if (!DOES_ENTITY_EXIST(S.prop)) { S.prop = 0; putAway(ped, "prop gone"); return; }
@@ -179,6 +185,9 @@ void gatlingFrame() {
     // sprint_lock
     DISABLE_CONTROL_ACTION(controls::sprint.pad, controls::sprint.code, false);
 
+    if (trace) logf("  pose");
     playHoldPose(ped);
+    if (trace) logf("  fire");
     fire(ped);
+    if (trace) logf("  frame done");
 }

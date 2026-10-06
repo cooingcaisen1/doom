@@ -35,8 +35,8 @@
       "row": "arthur_gatling",
       "column": "propModel",
       "question": "Does gatling_gun spawn and attach, with the wheels gone?",
-      "status": "pending",
-      "evidence": "player log: prop 159234 spawned and attached to PH_R_Hand (bone index 329, matches femga's player_zero list). Wheels and look not yet seen"
+      "status": "failed",
+      "evidence": "player log: prop 159234 spawned and attached to PH_R_Hand (bone index 329, matches femga's player_zero list). Wheels and look not yet seen. 1.0.0: player reports the game crashed after F7 (log ends at 'Gatling out'). 1.0.1 adds per-call and crash logging to find the culprit"
     },
     {
       "id": "prop_pose",

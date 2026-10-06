@@ -37,7 +37,7 @@ def main():
         call_args = "".join(f", a{i}" for i in range(len(n["args"])))
         ret = CTYPE[n["returns"]]
         out.append(f"// {n['usedFor']}")
-        out.append(f"inline {ret} {ident(n['name'])}({params}) {{ return invoke<{ret}, {n['hash']}ULL>({call_args.lstrip(', ')}); }}")
+        out.append(f"inline {ret} {ident(n['name'])}({params}) {{ return invoke<{ret}, {n['hash']}ULL>(\"{n['name']}\"{call_args}); }}")
     out.append("}  // namespace natives\n")
 
     out.append("enum class Resolve { Direct, Rip, RipImm8, Call };")

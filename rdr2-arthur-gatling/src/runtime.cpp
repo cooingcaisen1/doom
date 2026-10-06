@@ -14,7 +14,9 @@ void gatlingFrame();     // gatling.cpp
 
 namespace rt {
 GetNativeAddressFn getNativeAddress = nullptr;
-void reportMissingNative(uint64_t hash) { logf("native 0x%016llX not found", (unsigned long long)hash); }
+const char* volatile lastNative = nullptr;
+void reportMissingNative(const char* name, uint64_t hash) { logf("native %s (0x%016llX) not found", name, (unsigned long long)hash); }
+void reportFirstCall(const char* name) { logf("first call: %s", name); }
 }
 
 // ---------- log ----------
@@ -176,7 +178,33 @@ static void hkShutdownLoadingScreen() {
 
 bool rtInSessionFlag() { return g_inSessionFlag && *g_inSessionFlag; }
 
+// ---------- crash log ----------
+// Logs fatal-looking exceptions with the last native the mod called, so a crash
+// report from a player names the culprit. Never handles anything itself.
+static volatile LONG g_crashLines = 0;
+static LONG CALLBACK crashLogger(EXCEPTION_POINTERS* info) {
+    DWORD code = info->ExceptionRecord->ExceptionCode;
+    if (code != EXCEPTION_ACCESS_VIOLATION && code != EXCEPTION_ILLEGAL_INSTRUCTION &&
+        code != EXCEPTION_STACK_OVERFLOW && code != EXCEPTION_INT_DIVIDE_BY_ZERO && code != 0xC0000409)
+        return EXCEPTION_CONTINUE_SEARCH;
+    if (InterlockedIncrement(&g_crashLines) > 3) return EXCEPTION_CONTINUE_SEARCH;
+    uintptr_t at = reinterpret_cast<uintptr_t>(info->ExceptionRecord->ExceptionAddress);
+    HMODULE mod = nullptr;
+    GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                       reinterpret_cast<LPCWSTR>(at), &mod);
+    wchar_t name[MAX_PATH] = L"?";
+    if (mod) GetModuleFileNameW(mod, name, MAX_PATH);
+    const wchar_t* base = wcsrchr(name, L'\\');
+    logf("exception %08lX at %ls+0x%llX (on game thread: %s), last native: %s, data address %p",
+         code, base ? base + 1 : name, (unsigned long long)(at - reinterpret_cast<uintptr_t>(mod)),
+         (g_currentThread && g_thread && *g_currentThread == g_thread) ? "ours" : "other",
+         rt::lastNative ? rt::lastNative : "none",
+         info->ExceptionRecord->NumberParameters > 1 ? (void*)info->ExceptionRecord->ExceptionInformation[1] : nullptr);
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+
 static void boot() {
+    AddVectoredExceptionHandler(0, crashLogger);
     g_base = reinterpret_cast<uintptr_t>(GetModuleHandleW(nullptr));
     auto dos = reinterpret_cast<IMAGE_DOS_HEADER*>(g_base);
     auto nt = reinterpret_cast<IMAGE_NT_HEADERS64*>(g_base + dos->e_lfanew);

@@ -36,7 +36,9 @@ using GetNativeAddressFn = uintptr_t (*)(uint64_t);
 
 namespace rt {
 extern GetNativeAddressFn getNativeAddress;
-void reportMissingNative(uint64_t hash);
+extern const char* volatile lastNative;  // for the crash log
+void reportMissingNative(const char* name, uint64_t hash);
+void reportFirstCall(const char* name);
 }
 
 constexpr uint32_t joaat(const char* s) {
@@ -63,16 +65,18 @@ inline void pushArg(NativeContext& ctx, T value) {
 }
 
 template <class R, uint64_t HASH, class... A>
-inline R invoke(A... args) {
+inline R invoke(const char* name, A... args) {
     static NativeHandler handler = nullptr;
     if (!handler) {
         handler = reinterpret_cast<NativeHandler>(rt::getNativeAddress ? rt::getNativeAddress(HASH) : 0);
         if (!handler) {
-            rt::reportMissingNative(HASH);
+            rt::reportMissingNative(name, HASH);
             if constexpr (!std::is_void_v<R>) return R{};
             else return;
         }
+        rt::reportFirstCall(name);
     }
+    rt::lastNative = name;
     NativeContext ctx{};
     ctx.retVal = ctx.stack;
     ctx.stackPtr = ctx.stack;

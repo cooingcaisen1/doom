@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "mode": "installed",
   "games": [{"slug": "red-dead-redemption-2", "role": "primary"}],
-  "components": [{"id": "main", "fileName": "ArthurGatling-1.0.0.zip", "label": "Arthur's Gatling", "kind": "main", "required": true}],
+  "components": [{"id": "main", "fileName": "ArthurGatling-1.0.1.zip", "label": "Arthur's Gatling", "kind": "main", "required": true}],
   "requirements": [{"kind": "loader", "id": "ultimate-asi-loader"}],
   "mappings": [
     {"component": "main", "from": "ArthurGatling.asi", "to": "{game}"},

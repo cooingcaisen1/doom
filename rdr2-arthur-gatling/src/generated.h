@@ -4,85 +4,85 @@
 
 namespace natives {
 // find Arthur
-inline Ped PLAYER_PED_ID() { return invoke<Ped, 0x096275889B8E0EE0ULL>(); }
+inline Ped PLAYER_PED_ID() { return invoke<Ped, 0x096275889B8E0EE0ULL>("PLAYER_PED_ID"); }
 // sanity check of hashing at start
-inline Hash GET_HASH_KEY(const char* a0) { return invoke<Hash, 0xFD340785ADF8CFB7ULL>(a0); }
+inline Hash GET_HASH_KEY(const char* a0) { return invoke<Hash, 0xFD340785ADF8CFB7ULL>("GET_HASH_KEY", a0); }
 // online guard
-inline BOOL NETWORK_IS_SESSION_STARTED() { return invoke<BOOL, 0x9DE624D2FC4B603FULL>(); }
+inline BOOL NETWORK_IS_SESSION_STARTED() { return invoke<BOOL, 0x9DE624D2FC4B603FULL>("NETWORK_IS_SESSION_STARTED"); }
 // online guard
-inline BOOL NETWORK_IS_GAME_IN_PROGRESS() { return invoke<BOOL, 0x10FAB35428CCC9D7ULL>(); }
+inline BOOL NETWORK_IS_GAME_IN_PROGRESS() { return invoke<BOOL, 0x10FAB35428CCC9D7ULL>("NETWORK_IS_GAME_IN_PROGRESS"); }
 // ignore F7 in menus
-inline BOOL IS_PAUSE_MENU_ACTIVE() { return invoke<BOOL, 0x535384D6067BA42EULL>(); }
+inline BOOL IS_PAUSE_MENU_ACTIVE() { return invoke<BOOL, 0x535384D6067BA42EULL>("IS_PAUSE_MENU_ACTIVE"); }
 // fire timing
-inline int GET_GAME_TIMER() { return invoke<int, 0x4F67E8ECA7D3F667ULL>(); }
+inline int GET_GAME_TIMER() { return invoke<int, 0x4F67E8ECA7D3F667ULL>("GET_GAME_TIMER"); }
 // prop bookkeeping
-inline BOOL DOES_ENTITY_EXIST(Entity a0) { return invoke<BOOL, 0xD42BD6EB2E0F1677ULL>(a0); }
+inline BOOL DOES_ENTITY_EXIST(Entity a0) { return invoke<BOOL, 0xD42BD6EB2E0F1677ULL>("DOES_ENTITY_EXIST", a0); }
 // auto put-away
-inline BOOL IS_ENTITY_DEAD(Entity a0) { return invoke<BOOL, 0x7D5B1F88E7504BBAULL>(a0); }
+inline BOOL IS_ENTITY_DEAD(Entity a0) { return invoke<BOOL, 0x7D5B1F88E7504BBAULL>("IS_ENTITY_DEAD", a0); }
 // auto put-away
-inline BOOL IS_PED_ON_MOUNT(Ped a0) { return invoke<BOOL, 0x460BC76A0E10655EULL>(a0); }
+inline BOOL IS_PED_ON_MOUNT(Ped a0) { return invoke<BOOL, 0x460BC76A0E10655EULL>("IS_PED_ON_MOUNT", a0); }
 // auto put-away
-inline BOOL IS_PED_IN_ANY_VEHICLE(Ped a0, BOOL a1) { return invoke<BOOL, 0x997ABD671D25CA0BULL>(a0, a1); }
+inline BOOL IS_PED_IN_ANY_VEHICLE(Ped a0, BOOL a1) { return invoke<BOOL, 0x997ABD671D25CA0BULL>("IS_PED_IN_ANY_VEHICLE", a0, a1); }
 // auto put-away
-inline BOOL IS_PED_SWIMMING(Ped a0) { return invoke<BOOL, 0x9DE327631295B4C2ULL>(a0); }
+inline BOOL IS_PED_SWIMMING(Ped a0) { return invoke<BOOL, 0x9DE327631295B4C2ULL>("IS_PED_SWIMMING", a0); }
 // pause firing
-inline BOOL IS_PED_RAGDOLL(Ped a0) { return invoke<BOOL, 0x47E4E977581C5B55ULL>(a0); }
+inline BOOL IS_PED_RAGDOLL(Ped a0) { return invoke<BOOL, 0x47E4E977581C5B55ULL>("IS_PED_RAGDOLL", a0); }
 // load Gatling model
-inline void REQUEST_MODEL(Hash a0, BOOL a1) { return invoke<void, 0xFA28FE3A6246FC30ULL>(a0, a1); }
+inline void REQUEST_MODEL(Hash a0, BOOL a1) { return invoke<void, 0xFA28FE3A6246FC30ULL>("REQUEST_MODEL", a0, a1); }
 // load Gatling model
-inline BOOL HAS_MODEL_LOADED(Hash a0) { return invoke<BOOL, 0x1283B8B89DD5D1B6ULL>(a0); }
+inline BOOL HAS_MODEL_LOADED(Hash a0) { return invoke<BOOL, 0x1283B8B89DD5D1B6ULL>("HAS_MODEL_LOADED", a0); }
 // load Gatling model
-inline void SET_MODEL_AS_NO_LONGER_NEEDED(Hash a0) { return invoke<void, 0x4AD96EF928BD4F9AULL>(a0); }
+inline void SET_MODEL_AS_NO_LONGER_NEEDED(Hash a0) { return invoke<void, 0x4AD96EF928BD4F9AULL>("SET_MODEL_AS_NO_LONGER_NEEDED", a0); }
 // spawn Gatling
-inline Vehicle CREATE_VEHICLE(Hash a0, float a1, float a2, float a3, float a4, BOOL a5, BOOL a6, BOOL a7, BOOL a8) { return invoke<Vehicle, 0xAF35D0D2583051B0ULL>(a0, a1, a2, a3, a4, a5, a6, a7, a8); }
+inline Vehicle CREATE_VEHICLE(Hash a0, float a1, float a2, float a3, float a4, BOOL a5, BOOL a6, BOOL a7, BOOL a8) { return invoke<Vehicle, 0xAF35D0D2583051B0ULL>("CREATE_VEHICLE", a0, a1, a2, a3, a4, a5, a6, a7, a8); }
 // put Gatling away
-inline void DELETE_VEHICLE(Vehicle* a0) { return invoke<void, 0xE20A909D8C4A70F8ULL>(a0); }
+inline void DELETE_VEHICLE(Vehicle* a0) { return invoke<void, 0xE20A909D8C4A70F8ULL>("DELETE_VEHICLE", a0); }
 // own the prop so it can be deleted
-inline void SET_ENTITY_AS_MISSION_ENTITY(Entity a0, BOOL a1, BOOL a2) { return invoke<void, 0xDC19C288082E586EULL>(a0, a1, a2); }
+inline void SET_ENTITY_AS_MISSION_ENTITY(Entity a0, BOOL a1, BOOL a2) { return invoke<void, 0xDC19C288082E586EULL>("SET_ENTITY_AS_MISSION_ENTITY", a0, a1, a2); }
 // prop does not push Arthur
-inline void SET_ENTITY_COLLISION(Entity a0, BOOL a1, BOOL a2) { return invoke<void, 0xF66F820909453B8CULL>(a0, a1, a2); }
+inline void SET_ENTITY_COLLISION(Entity a0, BOOL a1, BOOL a2) { return invoke<void, 0xF66F820909453B8CULL>("SET_ENTITY_COLLISION", a0, a1, a2); }
 // prop cannot be shot apart
-inline void SET_ENTITY_INVINCIBLE(Entity a0, BOOL a1) { return invoke<void, 0xA5C38736C426FCB8ULL>(a0, a1); }
+inline void SET_ENTITY_INVINCIBLE(Entity a0, BOOL a1) { return invoke<void, 0xA5C38736C426FCB8ULL>("SET_ENTITY_INVINCIBLE", a0, a1); }
 // strip carriage wheels
-inline Entity BREAK_OFF_VEHICLE_WHEEL(Vehicle a0, int a1) { return invoke<Entity, 0xD4F5EFB55769D272ULL>(a0, a1); }
+inline Entity BREAK_OFF_VEHICLE_WHEEL(Vehicle a0, int a1) { return invoke<Entity, 0xD4F5EFB55769D272ULL>("_BREAK_OFF_VEHICLE_WHEEL", a0, a1); }
 // delete broken-off wheels
-inline void DELETE_ENTITY(Entity* a0) { return invoke<void, 0x4CD38C78BD19A497ULL>(a0); }
+inline void DELETE_ENTITY(Entity* a0) { return invoke<void, 0x4CD38C78BD19A497ULL>("DELETE_ENTITY", a0); }
 // hand bone + barrel bone
-inline int GET_ENTITY_BONE_INDEX_BY_NAME(Entity a0, const char* a1) { return invoke<int, 0xBACA8FE9C76C124EULL>(a0, a1); }
+inline int GET_ENTITY_BONE_INDEX_BY_NAME(Entity a0, const char* a1) { return invoke<int, 0xBACA8FE9C76C124EULL>("GET_ENTITY_BONE_INDEX_BY_NAME", a0, a1); }
 // Gatling in Arthur's hands
-inline void ATTACH_ENTITY_TO_ENTITY(Entity a0, Entity a1, int a2, float a3, float a4, float a5, float a6, float a7, float a8, BOOL a9, BOOL a10, BOOL a11, BOOL a12, int a13, BOOL a14, BOOL a15, BOOL a16) { return invoke<void, 0x6B9BBD38AB0796DFULL>(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16); }
+inline void ATTACH_ENTITY_TO_ENTITY(Entity a0, Entity a1, int a2, float a3, float a4, float a5, float a6, float a7, float a8, BOOL a9, BOOL a10, BOOL a11, BOOL a12, int a13, BOOL a14, BOOL a15, BOOL a16) { return invoke<void, 0x6B9BBD38AB0796DFULL>("ATTACH_ENTITY_TO_ENTITY", a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16); }
 // muzzle position
-inline Vector3 GET_WORLD_POSITION_OF_ENTITY_BONE(Entity a0, int a1) { return invoke<Vector3, 0x82CFA50E34681CA5ULL>(a0, a1); }
+inline Vector3 GET_WORLD_POSITION_OF_ENTITY_BONE(Entity a0, int a1) { return invoke<Vector3, 0x82CFA50E34681CA5ULL>("GET_WORLD_POSITION_OF_ENTITY_BONE", a0, a1); }
 // muzzle fallback
-inline Vector3 GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(Entity a0, float a1, float a2, float a3) { return invoke<Vector3, 0x1899F328B0E12848ULL>(a0, a1, a2, a3); }
+inline Vector3 GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(Entity a0, float a1, float a2, float a3) { return invoke<Vector3, 0x1899F328B0E12848ULL>("GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS", a0, a1, a2, a3); }
 // aim ray
-inline Vector3 GET_FINAL_RENDERED_CAM_COORD() { return invoke<Vector3, 0x5352E025EC2B416FULL>(); }
+inline Vector3 GET_FINAL_RENDERED_CAM_COORD() { return invoke<Vector3, 0x5352E025EC2B416FULL>("GET_FINAL_RENDERED_CAM_COORD"); }
 // aim ray
-inline Vector3 GET_FINAL_RENDERED_CAM_ROT(int a0) { return invoke<Vector3, 0x602685BD85DD26CAULL>(a0); }
+inline Vector3 GET_FINAL_RENDERED_CAM_ROT(int a0) { return invoke<Vector3, 0x602685BD85DD26CAULL>("GET_FINAL_RENDERED_CAM_ROT", a0); }
 // pick bullet type
-inline BOOL IS_WEAPON_VALID(Hash a0) { return invoke<BOOL, 0x937C71165CF334B3ULL>(a0); }
+inline BOOL IS_WEAPON_VALID(Hash a0) { return invoke<BOOL, 0x937C71165CF334B3ULL>("IS_WEAPON_VALID", a0); }
 // the spray
-inline void SHOOT_SINGLE_BULLET_BETWEEN_COORDS(float a0, float a1, float a2, float a3, float a4, float a5, int a6, BOOL a7, Hash a8, Ped a9, BOOL a10, BOOL a11, float a12, BOOL a13) { return invoke<void, 0x867654CBC7606F2CULL>(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13); }
+inline void SHOOT_SINGLE_BULLET_BETWEEN_COORDS(float a0, float a1, float a2, float a3, float a4, float a5, int a6, BOOL a7, Hash a8, Ped a9, BOOL a10, BOOL a11, float a12, BOOL a13) { return invoke<void, 0x867654CBC7606F2CULL>("SHOOT_SINGLE_BULLET_BETWEEN_COORDS", a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13); }
 // muzzle flash
-inline BOOL START_PARTICLE_FX_NON_LOOPED_AT_COORD(const char* a0, float a1, float a2, float a3, float a4, float a5, float a6, float a7, BOOL a8, BOOL a9, BOOL a10) { return invoke<BOOL, 0x2E80BF72EF7C87ACULL>(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10); }
+inline BOOL START_PARTICLE_FX_NON_LOOPED_AT_COORD(const char* a0, float a1, float a2, float a3, float a4, float a5, float a6, float a7, BOOL a8, BOOL a9, BOOL a10) { return invoke<BOOL, 0x2E80BF72EF7C87ACULL>("START_PARTICLE_FX_NON_LOOPED_AT_COORD", a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10); }
 // read fire/aim
-inline BOOL IS_CONTROL_PRESSED(int a0, Hash a1) { return invoke<BOOL, 0xF3A21BCD95725A4AULL>(a0, a1); }
+inline BOOL IS_CONTROL_PRESSED(int a0, Hash a1) { return invoke<BOOL, 0xF3A21BCD95725A4AULL>("IS_CONTROL_PRESSED", a0, a1); }
 // read fire after disabling it for the game
-inline BOOL IS_DISABLED_CONTROL_PRESSED(int a0, Hash a1) { return invoke<BOOL, 0xE2587F8CBBD87B1DULL>(a0, a1); }
+inline BOOL IS_DISABLED_CONTROL_PRESSED(int a0, Hash a1) { return invoke<BOOL, 0xE2587F8CBBD87B1DULL>("IS_DISABLED_CONTROL_PRESSED", a0, a1); }
 // sprint lock, block melee/normal firing
-inline void DISABLE_CONTROL_ACTION(int a0, Hash a1, BOOL a2) { return invoke<void, 0xFE99B66D079CF6BCULL>(a0, a1, a2); }
+inline void DISABLE_CONTROL_ACTION(int a0, Hash a1, BOOL a2) { return invoke<void, 0xFE99B66D079CF6BCULL>("DISABLE_CONTROL_ACTION", a0, a1, a2); }
 // hip-hold pose
-inline void REQUEST_ANIM_DICT(const char* a0) { return invoke<void, 0xA862A2AD321F94B4ULL>(a0); }
+inline void REQUEST_ANIM_DICT(const char* a0) { return invoke<void, 0xA862A2AD321F94B4ULL>("REQUEST_ANIM_DICT", a0); }
 // hip-hold pose
-inline BOOL HAS_ANIM_DICT_LOADED(const char* a0) { return invoke<BOOL, 0x27FF6FE8009B40CAULL>(a0); }
+inline BOOL HAS_ANIM_DICT_LOADED(const char* a0) { return invoke<BOOL, 0x27FF6FE8009B40CAULL>("HAS_ANIM_DICT_LOADED", a0); }
 // hip-hold pose
-inline void TASK_PLAY_ANIM(Ped a0, const char* a1, const char* a2, float a3, float a4, int a5, int a6, float a7, BOOL a8, int a9, BOOL a10, const char* a11, BOOL a12) { return invoke<void, 0xEA47FE3719165B94ULL>(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12); }
+inline void TASK_PLAY_ANIM(Ped a0, const char* a1, const char* a2, float a3, float a4, int a5, int a6, float a7, BOOL a8, int a9, BOOL a10, const char* a11, BOOL a12) { return invoke<void, 0xEA47FE3719165B94ULL>("TASK_PLAY_ANIM", a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12); }
 // re-apply pose if interrupted
-inline BOOL IS_ENTITY_PLAYING_ANIM(Entity a0, const char* a1, const char* a2, int a3) { return invoke<BOOL, 0xDEE49D5CA6C49148ULL>(a0, a1, a2, a3); }
+inline BOOL IS_ENTITY_PLAYING_ANIM(Entity a0, const char* a1, const char* a2, int a3) { return invoke<BOOL, 0xDEE49D5CA6C49148ULL>("IS_ENTITY_PLAYING_ANIM", a0, a1, a2, a3); }
 // drop pose on put-away
-inline void STOP_ANIM_TASK(Ped a0, const char* a1, const char* a2, float a3) { return invoke<void, 0x97FF36A1D40EA00AULL>(a0, a1, a2, a3); }
+inline void STOP_ANIM_TASK(Ped a0, const char* a1, const char* a2, float a3) { return invoke<void, 0x97FF36A1D40EA00AULL>("STOP_ANIM_TASK", a0, a1, a2, a3); }
 // holster Arthur's own gun while the Gatling is out
-inline void SET_CURRENT_PED_WEAPON(Ped a0, Hash a1, BOOL a2, int a3, BOOL a4, BOOL a5) { return invoke<void, 0xADF692B254977C0CULL>(a0, a1, a2, a3, a4, a5); }
+inline void SET_CURRENT_PED_WEAPON(Ped a0, Hash a1, BOOL a2, int a3, BOOL a4, BOOL a5) { return invoke<void, 0xADF692B254977C0CULL>("SET_CURRENT_PED_WEAPON", a0, a1, a2, a3, a4, a5); }
 }  // namespace natives
 
 enum class Resolve { Direct, Rip, RipImm8, Call };
