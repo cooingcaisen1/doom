@@ -23,3 +23,5 @@ Preflight: `python3 -I tools/preflight.py`
 - modId 0cfe1fea-b000-4eb6-85e0-6f44e20cee67 (draft, private). Release 0.0.1 = probe only (releaseId 9c30df45-97e5-4e13-8aed-7d65902d0f3b), status draft, one_click_check: yes.
 - Recipe: gta-v-enhanced primary, peak secondary, loader ultimate-asi-loader, PeakScoutGTA.asi -> {game}.
 - Waiting on: the user's Melty Test, and whether PeakScoutGTA.log appears in the GTA folder.
+- 0.0.1 test: Melty installed and launched it (game 1.0.1158.16, 0 failures), PeakScoutGTA.asi present, but no PeakScoutGTA.log. Either the ASI never loaded or the GTA folder isn't writable.
+- 0.0.2 submitted (draft): also logs to %LOCALAPPDATA%\PeakScoutGTA\probe.log and records whether the GTA folder is writable.
